@@ -48,7 +48,7 @@ app.post('api/qa/questions', (req, res) => {
     if (err) {
       res.sendStatus(400)
     } else {
-      res.status(200).send(succes)
+      res.status(201).send(succes)
     }
   })
 })
@@ -62,11 +62,64 @@ app.post('api/qa/questions/:question_id/answers', (req, res) => {
     if (err) {
       res.sendStatus(400)
     } else {
-      res.status(200).send(succes)
+      res.status(201).send(succes)
     }
   })
 })
 
+//these put requests might just be indicators of passing along the answers wiht the product ID to just upgrade the item directly.
+
+app.put('/qa/questions/:question_id/helpful', (req, res) => {
+  console.log('questions put helpful req: ' + req)
+  //does not currently exist in the database, need to set up
+  //is req.query appropriate?
+  DB.putQuestionHelpful(req.query, (err, succes) => {
+    if (err) {
+      res.sendStatus(400)
+    } else {
+      res.status(204).send(succes)
+    }
+  })
+})
+
+app.put('/qa/questions/:question_id/report', (req, res) => {
+  console.log('questions put report req: ' + req)
+  //does not currently exist in the database, need to set up
+  //is req.query appropriate?
+  DB.putQuestionReport(req.query, (err, succes) => {
+    if (err) {
+      res.sendStatus(400)
+    } else {
+      res.status(204).send(succes)
+    }
+  })
+})
+
+app.put('/qa/answers/:answer_id/helpful', (req, res) => {
+  console.log('answers put helpful req: ' + req)
+  //does not currently exist in the database, need to set up
+  //is req.query appropriate?
+  DB.putAnswerHelpful(req.query, (err, succes) => {
+    if (err) {
+      res.sendStatus(400)
+    } else {
+      res.status(204).send(succes)
+    }
+  })
+})
+
+app.put('/qa/answers/:answer_id/helpful', (req, res) => {
+  console.log('answers put report req: ' + req)
+  //does not currently exist in the database, need to set up
+  //is req.query appropriate?
+  DB.putAnswerReport(req.query, (err, succes) => {
+    if (err) {
+      res.sendStatus(400)
+    } else {
+      res.status(204).send(succes)
+    }
+  })
+})
 
 /*i have to devise what paths the routes are going to take.
 
