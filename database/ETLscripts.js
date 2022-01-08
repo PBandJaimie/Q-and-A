@@ -67,6 +67,34 @@ db.answers_ordered.aggregate([{
 
 /**------------------------------------------------------------ */
 
+
+db.questions.aggregate([{
+  // $match: {answer_id:{$gte:0,$lte:1999}}
+  $match: {
+    $expr: {
+      $gte: [{
+        $toInt: "$product_id"
+      }, 0]},
+    $expr: {
+      $lte: [{
+        $toInt: "$product_id"
+      }, 3999999]
+    }}
+},
+{$group: {_id: "$product_id",
+questions: {$push: {
+  question_id: "$id",
+  body: "$body",
+  date:"$date_written",
+  asker_name: "$asker_name",
+  asker_email: "$asker_email",
+  reported: "$reported",
+  helpfulness: "$helpful"
+}}}},
+{
+  $merge:'questions_merged'
+}], { "allowDiskUse" : true }).explain("executionStats")
+
 //was using the following code to aggregate the photos togher, decided it was an unesecary step and to just pipline it directly wiht the answers.
 
 // db.photos.aggregate([ {
